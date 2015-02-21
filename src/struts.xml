@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+ 
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.i18n.encoding" value="UTF-8"></constant>
+    
+    <!--  o6c ati -->
+     <!-- 设置浏览器是否缓存静态内容,默认值为true(生产环境下使用),开发阶段最好关闭 -->
+    <constant name="struts.serve.static.browserCache" value="false"/>
+    <!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开 -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+      <include file="../struts-*.xml"></include>
+     <!-- /// o6c ati -->
+    
+    <package name="default" extends="struts-default" namespace="/weixin">
+    <!-- 拦截器todox login check machi o6c -->
+        <interceptors>
+            <!-- 登录验证 -->
+            <interceptor name="loginVerify" class="com.focusx.interceptor.LoginInterceptor"></interceptor>
+            <interceptor-stack name="verify">
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+                <interceptor-ref name="loginVerify"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>        
+        <default-interceptor-ref name="verify"></default-interceptor-ref>
+        
+        <global-results>
+            <result name="login">/refresh.jsp</result>
+        </global-results>
+    
+    	<!-- 系统登陆管理 -->
+    	<action name="adminManager" class="com.focusx.action.AdminAction">
+    		<result name="home" type="redirect">/home.jsp</result>
+    		<result name="success">/main.jsp</result>
+    		<result name="fail">/login.jsp</result>
+    		<result name="out">/login.jsp</result>
+    	</action>
+    	
+    	<!-- 用户管理 -->
+    	<action name="userManager" class="com.focusx.action.userInfoManager.UserInfoManagerAction">
+    		<!-- 用户列表展示 -->
+    		<result name="listUsers">/user/listUsers.jsp</result>
+    		
+    		<!-- 用户具体信息展示  -->
+    		<result name="getUserById">/user/viewUser.jsp</result>
+    		
+    		<!-- 用户信息编辑 -->
+    		<result name="showEditUserPage">/user/editUser.jsp</result>
+    		
+    		<!-- 跳转到用户新增jsp -->
+    		<result name="showAddPage">/user/addUser.jsp</result>
+    		
+    		<!-- 用户新增成功后，转向到用户展示的Action，并传递参数用户ID -->
+    		<result name="addUserInfo" type="redirect">
+    			/weixin/userManager!getUserById?id=${id}
+    		</result>
+    		
+    		<!-- 用户信息修改成功后，转向到用户展示的Action，并传递参数用户ID   -->
+    		<result name="editUserInfo" type="redirect">
+    			/weixin/userManager!getUserById?id=${id}
+    		</result>
+    		
+    		<!-- 转向用户添加角色页面 -->
+    		<result name="showUserToRolePage">/user/addUserToRole.jsp</result>
+    		
+    		<!-- 转向选择分公司界面 -->
+    		<result name="groups">/user/chooseGroup.jsp</result>
+    	</action>
+    	
+        <!-- 分公司管理 -->
+    	<action name="branchManager" class="com.focusx.action.branchManager.BranchManagerAciton">
+    		<!-- 分组界面 -->
+    		<result name="list">/branch/listBranch.jsp</result>
+    		
+    		<!-- 列表界面 -->
+    		<result name="branchs">/branch/branchs.jsp</result>
+    		
+    		<!-- 联系人选择界面 -->
+    		<result name="listWeixinuser">/branch/choseWeixinuser.jsp</result>
+    		
+    		<!-- 下载二维码图片失败页面 -->
+    		<result name="error">/branch/error.jsp</result>
+    		
+    		<!-- 微信粉丝列表界面 -->
+    		<result name="listWeixinuser">/branch/listWeixinuser.jsp</result>
+    		    		
+    		<!-- 编辑界面 -->
+    		<result name="show">/branch/editBranch.jsp</result>
+    		
+    		<!-- 分公司列表警告界面 -->
+    		<result name="warning">/branch/warning.jsp</result>
+    		
+    		<!-- 未登陆跳转到登陆界面   -->
+    		<result name="login">/refresh.jsp</result>	
+    		    		
+    		<!-- 跳转到编辑界面   -->
+    		<result name="edit">/branch/editBranch2.jsp</result>	
+    	</action>
+    	
+    	<!-- 图文管理 -->
+    	<action name="materialManager" class="com.focusx.action.materialManager.MaterialManagerAction">
+    		<!-- 列表界面 -->
+    		<result name="listMaterial">/material/listMaterial.jsp</result>
+    	    
+    	    <!-- 新建单图文界面 -->
+    		<result name="addMaterial">/material/addMaterial.jsp</result>
+    		
+    		<!-- 新建多图文界面 -->
+    		<result name="addMoreMaterial">/material/addMoreMaterial.jsp</result>
+    		
+    		<!-- 编辑单图文界面 -->
+    		<result name="edit">/material/editMaterial.jsp</result>
+    		
+    		<!-- 编辑多图文界面 -->
+    		<result name="editMore">/material/editMoreMaterial.jsp</result>
+    		
+    		<!-- 未登陆跳转到登陆界面   -->
+    		<result name="login">/refresh.jsp</result>
+    		    		
+    		<!-- 警告界面 -->
+    		<result name="warning">/material/warning.jsp</result>
+    		
+    		<!-- 相同昵称界面 -->
+    		<result name="preview_more">/material/preview_more.jsp</result>
+    	</action>
+    	
+    	<!-- 角色管理 -->
+    	<action name="roleManager" class="com.focusx.action.roleManager.RoleManagerAction">   	
+    		<!-- 角色列表 -->
+    		<result name="listRoles">/role/listRoles.jsp</result>
+    		
+    		<!-- 跳转到角色新增jsp -->
+    		<result name="showAddPage">/role/addRole.jsp</result>
+    		
+    		<!--角色新增成功后或编辑成功后，转向到角色展示的Action，并传递参数角色ID   -->
+    		<result name="showRole" type="redirect">
+    			/weixin/roleManager!showViewPage?id=${id}
+    		</result>
+    		
+    		<!-- 角色信息展示 -->
+    		<result name="viewRole">/role/viewRole.jsp</result>
+    		
+    		<!-- 角色编辑 -->
+    		<result name="editRolePage">/role/editRole.jsp</result>
+    		
+    		<!-- 转到角色授权界面 -->
+    		<result name="rolePower">/role/rolePower.jsp</result>
+    	</action>
+    	
+    	<!-- 奖品管理 -->
+    	<action name="actawardManager" class="com.focusx.action.actawardManager.ActAwardManagerAction">   	
+    		<!-- 奖品列表 -->
+    		<result name="listActAward">/actaward/listActAward.jsp</result>
+    		
+    		<!-- 跳转到奖品新增界面 -->
+    		<result name="showAddActAward">/actaward/addActAward.jsp</result>
+    		
+    		<!-- 新增成功跳转到奖品信息展示  -->
+    		<result name="showActAward" type="redirect">
+    			/weixin/actawardManager!showActAward?id=${id}
+    		</result>
+    		
+    		<!-- 奖品信息展示 -->
+    		<result name="viewActAward">/actaward/viewActAward.jsp</result>
+    		
+    		<!-- 奖品编辑 -->
+    		<result name="editActAward">/actaward/editActAward.jsp</result>
+    	</action>    
+    	
+    	<!-- 活动管理 -->
+    	<action name="activityManager" class="com.focusx.action.activityManager.ActivityManagerAction">   	
+    		<!-- 活动列表 -->
+    		<result name="listActivity">/activity/listActivity.jsp</result>
+    		
+    		<!-- 跳转到活动新增界面 -->
+    		<result name="showAddActivity">/activity/addActivity.jsp</result>
+    		
+    		<!-- 新增成功跳转到活动信息展示  -->
+    		<result name="showActivity" type="redirect">
+    			/weixin/activityManager!showActivity?id=${id}
+    		</result>
+    		
+    		<!-- 活动信息展示 -->
+    		<result name="viewActivity">/activity/viewActivity.jsp</result>
+    		
+    		<!-- 活动编辑 -->
+    		<result name="editActivity">/activity/editActivity.jsp</result>
+    		
+    		<!-- 奖品显示页面 -->
+    		<result name="showActAward">/activity/showActAward.jsp</result>
+    		
+    		<!-- 选择奖品页面 -->
+    		<result name="chooseActAward">/activity/chooseActAward.jsp</result>
+    		
+    		<!-- 抽奖审核页面 -->
+    		<result name="listDraw">/activity/listDraw.jsp</result>
+    		
+    		<!-- 中奖名单页面 -->
+    		<result name="showWinner">/activity/showWinner.jsp</result>
+    	</action> 	
+    	
+    	<!-- 微信粉丝 -->
+    	<action name="weixinuserManager" class="com.focusx.action.weixinuserManager.WeixinUserManagerAction"> 
+    	   <!-- 微信粉丝列表 -->
+    	   <result name="listUser">/weixinuser/listWeixinuser.jsp</result>
+    	   
+    	   <!-- 微信粉丝详细界面 -->
+    	   <result name="view">/weixinuser/viewWeixinuser.jsp</result>
+    	      	
+    	   <!-- 未分组的微信粉丝列表 -->
+    	   <result name="nullGroup">/weixinuser/nullGroup.jsp</result>
+
+    	</action>
+    	  
+    	<!-- 关键词监听 -->
+    	<action name="listenManager" class="com.focusx.action.listenManager.ListenManagerAction"> 
+    	   <!-- 列表 -->
+    	   <result name="list">/listen/listListens.jsp</result>
+    	   
+    	   <!-- 新增成功跳转到详细界面  -->
+    	   <result name="showListen" type="redirect">
+    			/weixin/listenManager!view?listenId=${listenId}
+    	   </result>
+    	   
+    	   <!-- 详细界面 -->
+    	   <result name="view">/listen/viewListen.jsp</result>
+    	      	
+    	   <!-- 编辑界面 -->
+    	   <result name="edit">/listen/editListen.jsp</result>
+    	   
+    	   <!-- 新建界面 -->
+    	   <result name="add">/listen/addListen.jsp</result>
+    	   
+    	   <!-- 关键词搜索列表 -->
+    	   <result name="listenToTask">/listen/listListenToTask.jsp</result>
+    	</action>
+    	
+    	<!-- 数据分析 -->
+    	<action name="dataAnalysisManager" class="com.focusx.action.DataAnalysisAction"> 
+    	   <!-- 粉丝分析 -->
+    	   <result name="listWeixins">/dataAnalysis/listWeixins.jsp</result>    	   
+    	   <!-- 图文分析 -->
+    	   <result name="listNews">/dataAnalysis/listNews.jsp</result>   	   
+    	   <!-- 会员绑定 -->
+    	   <result name="listMembers">/dataAnalysis/listMembers.jsp</result>
+    	   <!-- 门店签到 -->
+    	   <result name="listSigns">/dataAnalysis/listSigns.jsp</result>
+    	   <!-- 板块点击分析 -->
+    	   <result name="listMenus">/dataAnalysis/listMenus.jsp</result>
+    	   <!-- 活动分析 -->
+    	   <result name="listActivitys">/dataAnalysis/listActivitys.jsp</result>
+    	   
+    	   <!-- 会员查询 -->
+    	   <result name="memberDetail">/dataAnalysis/memberDetail.jsp</result>
+    	   
+    	   
+    	   <result name="listAll">/dataAnalysis/listAll.jsp</result>
+
+    	</action>
+    	
+    	<!-- 关键词自动回复 -->
+    	<action name="replyManager" class="com.focusx.action.replyManager.ReplyManagerAction"> 
+    	   <!-- 列表 -->
+    	   <result name="listReplys">/reply/listReplys.jsp</result>
+    	   <!-- 新增跳转 -->
+    	   <result name="addReply">/reply/addReply.jsp</result>
+    	   <!-- 修改跳转 -->
+    	   <result name="editReply">/reply/editReply.jsp</result>
+    	</action>
+    	
+    <!--	<action name="weixinManager" class="weixinManagerAction">
+    	
+    	-->
+    <action name="weixinManager" class="com.focusx.action.WeixinManager">
+    		<result name="success">/client/list.jsp</result>
+    		<result name="reply">/client/tasksReply.jsp</result>
+    	</action>
+    </package>
+    <package name="rand" extends="struts-default" namespace="/">
+    	<action name="rand" class="com.focusx.action.RandomImageAction">
+			<result type="stream">
+				<param name="contentType">image/jpeg</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+    </package>
+    
+    
+    <package name="atipkg" extends="struts-default" namespace="/ati">
+    	<action name="operLog_*"   method="{1}" class="cn.freeteam.action.OperLogAction">
+			<result name="list" >/oplog/operLog.jsp</result>
+</action>
+    </package>
+</struts>

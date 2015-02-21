@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                           http://www.springframework.org/schema/tx   
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+                           http://www.springframework.org/schema/aop   
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- 用户管理 -->
+	<bean id="userInfoManagerAction" class="com.focusx.action.userInfoManager.UserInfoManagerAction" scope="prototype">
+    	<property name="userInfoManagerService" ref="userInfoManagerService" />
+    	<property name="branchManagerService" ref="branchManagerService"/>
+    </bean>
+    
+    <!-- 用户登陆 -->
+    <bean id="adminAction" class="com.focusx.action.AdminAction">
+    	<property name="userInfoManagerService" ref="userInfoManagerService"/>
+    </bean>
+    
+    <!-- 分公司管理 -->
+    <bean id="branchManagerAciton" class="com.focusx.action.branchManager.BranchManagerAciton">
+    	<property name="branchManagerService" ref="branchManagerService"/>
+    	<property name="weixinUserManagerService" ref="weixinUserManagerService"/>
+    </bean>
+    
+    <!-- 图文管理 -->
+    <bean id="materialManagerAction" class="com.focusx.action.materialManager.MaterialManagerAction">
+    	<property name="materialManagerService" ref="materialManagerService"/>
+    </bean>
+    
+    <!-- 角色管理 -->
+    <bean id="roleManagerAction" class="com.focusx.action.roleManager.RoleManagerAction">
+    	<property name="roleManageService" ref="roleManageService"/>
+    </bean>
+    
+    <!-- 奖品管理 -->
+    <bean id="actawardManagerAction" class="com.focusx.action.actawardManager.ActAwardManagerAction">
+    	<property name="actAwardManagerService" ref="actAwardManagerService"/>
+    </bean>
+    
+    <!-- 活动管理 -->
+    <bean id="activityManagerAction" class="com.focusx.action.activityManager.ActivityManagerAction">
+    	<property name="activityManagerService" ref="activityManagerService"/>
+    	<property name="actAwardManagerService" ref="actAwardManagerService"/>
+    	<property name="taskManagerService" ref="taskManagerService"/>
+    	<property name="awardWeixinManagerService" ref="awardWeixinManagerService"/>
+    </bean>
+    
+    <!-- 微信粉丝 -->
+    <bean id="weixinuserManagerAction" class="com.focusx.action.weixinuserManager.WeixinUserManagerAction">
+    	<property name="weixinUserManagerService" ref="weixinUserManagerService"/>
+    </bean>
+    
+    <!-- 关键词监听 -->
+    <bean id="listenManagerAction" class="com.focusx.action.listenManager.ListenManagerAction">
+    	<property name="listenService" ref="listenService"/>
+    </bean>
+    
+    <!-- 数据分析 -->
+    <bean id="dataAnalysisAction" class="com.focusx.action.DataAnalysisAction">
+    	<property name="weixinUserManagerService" ref="weixinUserManagerService"/>
+    	<property name="activityManagerService" ref="activityManagerService"/>
+    	<property name="materialManagerService" ref="materialManagerService"/>
+    	<property name="dataAnalysisService" ref="dataAnalysisService"/>
+    </bean>
+    
+    <!-- 关键词自动回复 -->
+    <bean id="replyManagerAction" class="com.focusx.action.replyManager.ReplyManagerAction">
+    	<property name="replyManagerService" ref="replyManagerService"/>
+    </bean>
+    
+    <bean id="weixinManagerAction" class="com.focusx.action.WeixinManager">
+    	<property name="taskService" ref="taskService" />
+    </bean>
+</beans>

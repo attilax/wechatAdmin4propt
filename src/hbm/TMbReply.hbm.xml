@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.focusx.entity.TMbReply" table="t_mb_reply">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="rules" type="java.lang.String">
+            <column name="rules" >
+            </column>
+        </property>
+        <property name="keyword" type="java.lang.String">
+            <column name="keyword" length="50">
+            </column>
+        </property>
+        <property name="md5keyword" type="java.lang.String">
+            <column name="md5keyword" length="50">
+            </column>
+        </property>
+        <property name="newsId" type="java.lang.Integer">
+            <column name="newsId">
+            </column>
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content">
+            </column>
+        </property>
+        <property name="groupid" type="java.lang.Integer">
+            <column name="groupid">
+            </column>
+        </property>
+        
+        <property name="multiReplyContent" type="java.lang.String">
+            <column name="multiReplyContent">
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

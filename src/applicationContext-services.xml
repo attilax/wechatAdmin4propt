@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                           http://www.springframework.org/schema/tx   
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+                           http://www.springframework.org/schema/aop   
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- 用户管理 -->
+	<bean id="userInfoManagerService" class="com.focusx.service.impl.UserInfoManagerServiceImpl">
+    	<property name="userInfoManagerDao" ref="userInfoManagerDao"/>
+    </bean>
+    
+    <!-- 分公司管理 -->
+	<bean id="branchManagerService" class="com.focusx.service.impl.BranchManagerServiceImpl">
+    	<property name="branchManagerDao" ref="branchManagerDao"/>
+    </bean>
+    
+    <!-- 图文管理 -->
+	<bean id="materialManagerService" class="com.focusx.service.impl.MaterialManagerServiceImpl">
+    	<property name="materialManagerDao" ref="materialManagerDao"/>
+    </bean>
+    
+    <!-- 微信粉丝管理 -->
+	<bean id="weixinUserManagerService" class="com.focusx.service.impl.WeixinUserManagerServiceImpl">
+    	<property name="weixinUserManagerDao" ref="weixinUserManagerDao"/>
+    </bean>
+    
+    <!-- 角色管理 -->
+    <bean id="roleManageService" class="com.focusx.service.impl.RoleManageServiceImpl">
+    	<property name="roleManageDao" ref="roleManageDao"/>
+    </bean>
+    
+    <!-- 奖品管理 -->
+    <bean id="actAwardManagerService" class="com.focusx.service.impl.ActAwardManagerServiceImpl">
+    	<property name="actAwardManagerDao" ref="actAwardManagerDao"/>
+    </bean>
+    
+    <!-- 活动管理 -->
+    <bean id="activityManagerService" class="com.focusx.service.impl.ActivityManagerServiceImpl">
+    	<property name="activityManagerDao" ref="activityManagerDao"/>
+    </bean>
+        
+     <!-- 抽奖审核 -->
+    <bean id="taskManagerService" class="com.focusx.service.impl.TaskManagerServiceImpl">
+    	<property name="taskManagerDao" ref="taskManagerDao"/>
+    </bean>
+    
+    <!-- 中奖 -->
+    <bean id="awardWeixinManagerService" class="com.focusx.service.impl.AwardWeixinManagerServiceImpl">
+    	<property name="awardWeixinManagerDao" ref="awardWeixinManagerDao"/>
+    </bean>
+    
+    <!-- 分公司区域 -->
+    <bean id="tagService" class="com.focusx.service.impl.TagServiceImpl">
+    	<property name="tagDao" ref="tagDao"/>
+    </bean>
+    
+    <!-- 关键词监听 -->
+    <bean id="listenService" class="com.focusx.service.impl.ListenServiceImpl">
+    	<property name="listenDao" ref="listenDao"/>
+    </bean>
+    
+    <!-- 数据分析 -->
+    <bean id="dataAnalysisService" class="com.focusx.service.impl.DataAnalysisServiceImpl">
+    	<property name="dataAnalysisDao" ref="dataAnalysisDao"/>
+    </bean>
+    
+    <!-- 关键词自动回复 -->
+    <bean id="replyManagerService" class="com.focusx.service.impl.ReplyManagerServiceImpl">
+    	<property name="replyManagerDao" ref="replyManagerDao"/>
+    </bean>
+    
+    <bean id="taskService" class="com.focusx.service.impl.TaskServiceImpl">
+    	<property name="taskDao" ref="taskDao" />
+    </bean>
+</beans>

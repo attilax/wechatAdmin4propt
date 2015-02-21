@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                           http://www.springframework.org/schema/tx   
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+                           http://www.springframework.org/schema/aop   
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- 用户管理 -->
+	<bean id="userInfoManagerDao" class="com.focusx.dao.impl.UserInfoManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 分公司管理 -->
+	<bean id="branchManagerDao" class="com.focusx.dao.impl.BranchManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 图文管理 -->
+	<bean id="materialManagerDao" class="com.focusx.dao.impl.MaterialManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 微信粉丝管理 -->
+	<bean id="weixinUserManagerDao" class="com.focusx.dao.impl.WeixinUserManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 角色管理 -->
+    <bean id="roleManageDao" class="com.focusx.dao.impl.RoleManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+        
+    <!-- 奖品管理 -->
+    <bean id="actAwardManagerDao" class="com.focusx.dao.impl.ActAwardManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 奖品管理 -->
+    <bean id="activityManagerDao" class="com.focusx.dao.impl.ActivityManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 抽奖审核 -->
+    <bean id="taskManagerDao" class="com.focusx.dao.impl.TaskManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 中奖 -->
+    <bean id="awardWeixinManagerDao" class="com.focusx.dao.impl.AwardWeixinManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 分公司区域 -->
+    <bean id="tagDao" class="com.focusx.dao.impl.TagDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 关键词监听 -->
+    <bean id="listenDao" class="com.focusx.dao.impl.ListenDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 数据分析 -->
+    <bean id="dataAnalysisDao" class="com.focusx.dao.impl.DataAnalysisDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- 关键词自动回复 -->
+    <bean id="replyManagerDao" class="com.focusx.dao.impl.ReplyManagerDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="taskDao" class="com.focusx.dao.impl.TaskDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>

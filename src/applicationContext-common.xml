@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                           http://www.springframework.org/schema/tx   
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+                           http://www.springframework.org/schema/aop   
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
+	<!-- 引入配置文件 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 数据源 Sql Server-->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${pool.maxActive}</value>
+		</property>
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>${pool.removeAbandonedTimeout}</value>
+		</property>
+		<property name="validationQuery">
+			<value>select 1</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>true</value>
+		</property>
+	</bean>	
+	<!-- 会话工厂 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!--  
+		<property name="mappingResources">
+			<list>
+				<value>entity/User.hbm.xml</value>
+			</list>
+		</property>
+		-->
+		<!-- hibernate配置文件路径 -->
+        <property name="mappingDirectoryLocations">
+        <!-- classpath -->
+            <value>classpath:/hbm</value>
+        </property>
+
+		
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.show_sql=${hibernate.show_sql}
+				javax.persistence.validation.mode=${hibernate.validation.mode}
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 声明式事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<aop:config>
+		<!--com.focusx.service包下的所有方法  -->
+		<aop:pointcut id="productServiceMethods" expression="execution(* com.focusx.service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="productServiceMethods" />
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+		    <tx:method name="update*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="add*" propagation="REQUIRED" read-only="false" />
+			<!-- 这里只是个测试 -->
+			<tx:method name="get*" propagation="REQUIRED" read-only="false" />
+			<!--  
+			<tx:method name="increasePrice*" propagation="REQUIRED" />
+			<tx:method name="someOtherBusinessMethod" propagation="REQUIRES_NEW" />
+			-->
+			<tx:method name="*" propagation="REQUIRED" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	
+	<!-- start -->  
+	<!-- 启动器的调用的类 -->
+	<bean id="AutomaticGroup" class="com.focusx.quartz.AutomaticGroup" />
+    
+    <bean id="printTimerJob"  
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="AutomaticGroup" />  
+        <property name="targetMethod" value="initialized" /> <!-- 调用类的调用方法 -->
+        <property name="concurrent" value="false"/>    
+    </bean>  
+    
+    <bean id="printTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+        <property name="jobDetail" ref="printTimerJob" />  
+        <property name="cronExpression" value="0 0 1 * * ?" /> <!-- 启动时间  每天1:00启动一次-->
+    </bean>  
+      
+    <!-- 启动定时器 -->  
+    <bean id="schedulerFactoryBean"  
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="applicationContextSchedulerContextKey" value="applicationContext"/>  
+        <property name="triggers">  
+            <list>  
+                <ref bean="printTimerTrigger" />  
+            </list>  
+        </property>  
+    </bean>  
+    <!-- end -->  
+</beans>

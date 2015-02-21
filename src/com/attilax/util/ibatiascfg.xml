@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--
+		<properties resource="config/config.properties"></properties>
+	-->
+	<typeAliases>
+		<!--  
+		<package name="pojo" />
+		-->
+		<typeAlias alias="Topic" type="com.mijie.homi.search.domain.topic.Topic" />
+		<typeAlias alias="Topic" type="com.mijie.homi.search.domain.topic.Topic" />
+		<typeAlias alias="TopicOptions"
+			type="com.mijie.homi.search.domain.topic.TopicOptions" />
+		<typeAlias alias="User" type="com.mijie.homi.common.domain.user.User" />
+		<typeAlias alias="UserExtInfo"
+			type="com.mijie.homi.common.domain.user.UserExtInfo" />
+		<typeAlias alias="Mood" type="com.mijie.homi.common.domain.mood.Mood" />
+		<typeAlias alias="MoodUser"
+			type="com.mijie.homi.search.domain.user.MoodUser" />
+
+		<!--proxool连接池数据源，自定义-->
+		 
+			<typeAlias type="com.mijie.homi.search.util.ProxoolDataSourceFactory"
+				alias="atiProxl" />
+		 
+
+
+
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+
+			<dataSource type="atiProxl">
+			</dataSource>
+
+			<!--  
+				<dataSource type="POOLED"> <property name="driver"
+				value="com.mysql.jdbc.Driver" /> <property name="url"
+				value="jdbc:mysql://192.168.0.132:3306/homi" /> <property
+				name="username" value="root" /> <property name="password"
+				value="password" /> <property name="poolMaximumActiveConnections"
+				value="15" /> <property name="poolMaximumCheckoutTime" value="5000"
+				/> <!-/- <property name="username" value="${username}" /> <property
+				name="password" value="${password}" /> -/-> </dataSource>
+			-->
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="ibatis/index.xml" />
+	</mappers>
+</configuration> 
